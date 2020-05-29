@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from '../../logo.svg';
 import './App.css';
 
 function App() {
@@ -17,6 +17,15 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+        </a>
+        <br/>
+        <a 
+          className="App-link"
+          href="https://github.com/GauravWalia19/MernBoilerPlate"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          MERN Boilerplate
         </a>
       </header>
     </div>

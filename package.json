@@ -2,11 +2,13 @@
   "name": "mernboilerplate",
   "version": "1.0.0",
   "description": "This is a boilerplate repo for creating new mern stack apps",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "client": "cd client && yarn start",
+    "mern": "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run dev\" \"yarn run client\""
   },
   "author": "Gaurav Walia",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "mongoose": "^5.9.16"
   },
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.4"
   }
