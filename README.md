@@ -2,10 +2,6 @@
 
 This is a boilerplate repo for creating new mern stack apps that doesn't sucks.
 
-## Available BoilerPlates
-
-### `MERN Boilerplate` - [master]
-
 This is basic boilerplate for Full Stack MERN developers *(Recommended for beginners only)*. This boilerplate provides basic configurations like:
 
 * Sample CRUD API
