@@ -27,6 +27,14 @@ function App() {
         >
           MERN Boilerplate
         </a>
+        <br />
+        <a 
+          className="App-link"
+          href="https://www.heroku.com/"
+          target="_blank"
+          rel="noopener noreferrer">
+          Deploy on Heroku
+        </a>
       </header>
     </div>
   );
