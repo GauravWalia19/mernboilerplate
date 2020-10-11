@@ -2,7 +2,7 @@
   "name": "mernboilerplate",
   "version": "1.0.0",
   "engines": {
-    "node": "10.x",
+    "node": "12.x",
     "yarn": "1.x"
   },
   "description": "This is a boilerplate repo for creating new mern stack apps",
@@ -21,10 +21,10 @@
     "axios": "^0.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.16"
+    "mongoose": "^5.10.9"
   },
   "devDependencies": {
-    "concurrently": "^5.2.0",
+    "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.4"
   }
