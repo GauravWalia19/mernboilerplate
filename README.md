@@ -1,8 +1,7 @@
 <p align="center">
     <img src="./client/public/MERN.png" alt="mongo" height="100" />
 </p>
-<br/>
-<h1 align="center">MERN BOILERPLATE</h1>
+<h1 align="center">BOILERPLATE</h1>
 
 This is a boilerplate repo for creating new mern stack apps that doesn't sucks.
 
@@ -15,8 +14,6 @@ This is minimalist boilerplate for Full Stack MERN developers *(Recommended for 
 * Heroku Deployment Configurations
 
 ## Available Scripts
-
----
 
 For APIs to work in development please add a **.env** file in root of the project and add your **MONGODB_URI** in that file.
 
@@ -49,8 +46,6 @@ Open [http://localhost:5000/api/v1/get](http://localhost:5000/api/v1/get) to vie
 Open [http://localhost:3000](http://localhost:3000) to view React App in the browser.
 
 ## Steps for Heroku Deployment
-
----
 
 ### Dependencies
 
