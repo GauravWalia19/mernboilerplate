@@ -18,14 +18,14 @@
   "author": "Gaurav Walia",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.11"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   }
 }
