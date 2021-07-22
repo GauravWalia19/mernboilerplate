@@ -1,6 +1,6 @@
 {
   "name": "mernboilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
@@ -8,7 +8,7 @@
   "description": "This is a boilerplate repo for creating new mern stack apps",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "client": "cd client && yarn start",
@@ -26,6 +26,8 @@
   "devDependencies": {
     "concurrently": "^6.2.0",
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.4"
   }
 }
