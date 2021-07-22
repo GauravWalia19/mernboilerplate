@@ -31,7 +31,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          MERN Boilerplate 1.0.0
+          MERN Boilerplate 1.0.2
         </a>
         <br />
         <a 
