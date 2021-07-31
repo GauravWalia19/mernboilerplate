@@ -1,0 +1,6 @@
+# Ignore files for client docker image
+
+node_modules
+.eslintcache
+.gitignore
+*.md

@@ -1,0 +1,12 @@
+# Ignore files for server docker image
+
+.git
+.mernboilerplate
+.env
+.gitignore
+
+*.md
+
+client
+node_modules
+ProcFile
