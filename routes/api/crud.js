@@ -16,7 +16,7 @@ db.on('error', console.error.bind(console, 'Connection error:'));
  * @endpoint /api/v1/post
  **/
 router.post('/post', (req, res) => {
-    res.json({
+    res.status(201).json({
         message: 'POST API for MERN Boilerplate',
     });
 });
@@ -27,7 +27,7 @@ router.post('/post', (req, res) => {
  * @endpoint /api/v1/get
  **/
 router.get('/get', (req, res) => {
-    res.json({
+    res.status(200).json({
         message: 'GET API for MERN Boilerplate',
         APIs: 'Other Endpoints',
         create: '/api/v1/post',
@@ -43,7 +43,7 @@ router.get('/get', (req, res) => {
  * @endpoint /api/v1/put/32323
  **/
 router.put('/put/:id', (req, res) => {
-    res.json({
+    res.status(200).json({
         message: `PUT ${req.params.id} API for MERN Boilerplate`,
     });
 });
@@ -54,7 +54,7 @@ router.put('/put/:id', (req, res) => {
  * @endpoint /api/v1/delete/424
  **/
 router.delete('/delete/:id', (req, res) => {
-    res.json({
+    res.status(200).json({
         message: `DELETE ${req.params.id} API for MERN Boilerplate`,
     });
 });
