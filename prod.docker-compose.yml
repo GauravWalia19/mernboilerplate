@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  server:
+    image: mern-server-prod
+    restart: always
+    ports: 
+      - "5000:5000"
+    networks: 
+      - mern-network
+
+  client:
+    image: mern-client-prod
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge

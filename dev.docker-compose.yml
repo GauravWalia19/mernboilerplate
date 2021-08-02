@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  server:
+    image: mern-server-dev
+    build: ./
+    ports: 
+      - "5000:5000"
+    networks: 
+      - mern-network
+    volumes: 
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+  
+  client:
+    image: mern-client-dev
+    build: ./client/
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - mern-network
+    volumes: 
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules
+
+networks:
+  mern-network:
+    driver: bridge
