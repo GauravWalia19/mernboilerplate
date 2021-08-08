@@ -8,6 +8,7 @@
   "description": "A minimalist MERN app boilerplate that does'nt suck",
   "main": "server.js",
   "scripts": {
+    "setup": "node setup.js",
     "start": "node server.js",
     "dev:server": "nodemon server.js",
     "dev:client": "cd client && yarn start",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "concurrently": "^6.2.0",
     "dotenv": "^10.0.0",
+    "inquirer": "^8.1.2",
     "mocha": "^9.0.3",
     "nodemon": "^2.0.12",
     "supertest": "^6.1.4"
