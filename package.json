@@ -10,12 +10,12 @@
   "scripts": {
     "setup": "node setup.js",
     "start": "node server.js",
-    "dev:server": "nodemon server.js",
-    "dev:client": "cd client && yarn start",
-    "dev:mern": "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run dev:server\" \"yarn run dev:client\"",
     "test:server": "mocha --exit",
     "test:client": "cd client && yarn run test:nowatch",
     "test": "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run test:server\" \"yarn run test:client\"",
+    "dev:server": "nodemon server.js",
+    "dev:client": "cd client && yarn start",
+    "dev:mern": "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run dev:server\" \"yarn run dev:client\"",
     "heroku-postbuild": "cd client && yarn install && yarn run build"
   },
   "author": "Gaurav Walia",

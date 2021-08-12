@@ -45,9 +45,10 @@ const questions = [
         name: 'projectTemplate',
         message: 'Setup the template you need',
         choices: [
-            'Normal Deployment - Local Development and Production Deployment',
-            'Normal Deployment - Branching, CI & CD',
-            'Using Containerisation with Docker - Docker Compose in Development and Production Deployment',
+            'Normal Deployment - Local Development and Production Deployment with Heroku CLI',
+            'Normal Deployment - Branching, CI/CD with GitHub Actions and GitHub Heroku Integration',
+            'Normal Deployment - Branching and CI/CD with GitHub Actions',
+            'Containerisation with Docker - Docker Compose in Development and Production Deployment',
         ],
     },
     {
@@ -71,7 +72,19 @@ async function readPackageFile(filePath) {
 
 // create the file with the content
 async function createFile(filePathName, fileContent){
+    let dirPath = filePathName.split("/")
+    if(dirPath.length>1){
+        // create the directory
+        dirPath.pop()
+        dirPath = dirPath.join("/");
+        await createDir(dirPath);
+    }
     await fs.writeFile(filePathName, fileContent,'UTF-8')
+    .catch((err)=>console.log(err))
+}
+
+async function createDir(dirPath){
+    await fs.mkdir(`${dirPath}`,{recursive: true})
     .catch((err)=>console.log(err))
 }
 
@@ -91,7 +104,7 @@ async function deleteFile(filePathName){
     }
 }
 
-// setup the necessary files
+// setup the necessary project files
 async function setupProject(answers){
     const projectTemplate = answers.projectTemplate;
     const serverPackageJson = await readPackageFile('./package.json').catch((err) => {
@@ -146,15 +159,18 @@ async function setupProject(answers){
     // setup template files
     console.log('Adding Template files...');
     switch(projectTemplate){
-        case "Normal Deployment - Local Development and Production Deployment":
-            await setupLocalDevelopmentProductionDeployment(serverPackageJson, clientPackageJson);
+        case "Normal Deployment - Local Development and Production Deployment with Heroku CLI":
+            await setupNormalDevelopmentWithHerokuCli(serverPackageJson, clientPackageJson);
+            break;
+        case "Normal Deployment - Branching, CI/CD with GitHub Actions and GitHub Heroku Integration":
+            await setupNormalDevelopmentWithGithubHerokuIntegration(serverPackageJson, clientPackageJson);
             break;
     }
 
     // write updated package json files
     console.log('Updating package.json files...');
-    // createFile("package.json", JSON.stringify(serverPackageJson,null,"\t"));
-    // createFile("client/package.json", JSON.stringify(clientPackageJson,null,"\t"));
+    // await createFile("package.json", JSON.stringify(serverPackageJson,null,"\t"));
+    // await createFile("client/package.json", JSON.stringify(clientPackageJson,null,"\t"));
 
     // install dependencies
     if(answers.installDps){
@@ -175,14 +191,14 @@ async function setupProject(answers){
  * @param serverPackageJson
  * @param clientPackageJson
  **/
-async function setupLocalDevelopmentProductionDeployment(serverPackageJson, clientPackageJson){
+async function setupNormalDevelopmentWithHerokuCli(serverPackageJson, clientPackageJson){
     // server
-    createFile("ProcFile", "web: yarn run start");
+    await createFile("ProcFile", "web: yarn run start");
     serverPackageJson.scripts["dev:server"]         = "nodemon server.js";
     serverPackageJson.scripts["dev:client"]         = "cd client && yarn start";
     serverPackageJson.scripts["dev:mern"]           = "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run dev:server\" \"yarn run dev:client\"";
     serverPackageJson.scripts["heroku-postbuild"]   = "cd client && yarn install && yarn run build";
-    // createFile(".env","MONGODB_URI=<MONGODB>");
+    // await createFile(".env","MONGODB_URI=<MONGODB>");
 
     // client
     if(!clientPackageJson.hasOwnProperty("proxy")){
@@ -190,12 +206,64 @@ async function setupLocalDevelopmentProductionDeployment(serverPackageJson, clie
     }
 
     // cleanup files
-    deleteFile('heroku.yml');
+    await deleteFile('heroku.yml');
 } 
+
+/**
+ * @description function to setup the template 
+ * Normal Deployment - Branching, CI/CD with GitHub Actions and GitHub Heroku Integration
+ * @param serverPackageJson
+ * @param clientPackageJson
+ **/
+async function setupNormalDevelopmentWithGithubHerokuIntegration(serverPackageJson, clientPackageJson){
+    // files creation
+    await createFile("ProcFile", "web: yarn run start");
+    // await createFile(".env","MONGODB_URI=<MONGODB>");
+    
+    await createFile(".github/workflows/ci workflow.yml",`
+name: ci workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - run: yarn run ci
+      - run: yarn run test
+    env:
+      MONGOGB_URI: ${"${{ secrets.MONGODB_URI }}"}
+`);
+
+    // server
+    serverPackageJson.scripts["dev:server"]         = "nodemon server.js";
+    serverPackageJson.scripts["dev:client"]         = "cd client && yarn start";
+    serverPackageJson.scripts["dev:mern"]           = "concurrently -n 'server,client' -c 'yellow,blue' \"yarn run dev:server\" \"yarn run dev:client\"";
+    serverPackageJson.scripts["heroku-postbuild"]   = "cd client && yarn install && yarn run build";
+    serverPackageJson.scripts["ci"]                 = "yarn install --frozen-lockfile && cd client && yarn install --frozen-lockfile";
+
+    // client
+    if(!clientPackageJson.hasOwnProperty("proxy")){
+        clientPackageJson.proxy = "http://localhost:5000"
+    }
+
+    // cleanup files
+    await deleteFile('heroku.yml');
+}
 
 async function main() {
     console.log('Welcome to mernboilerplate setup!!!\n');
-    
+
     const answers = await inquirer.prompt(questions)
     .catch((error) => {
         console.log(
