@@ -2,13 +2,26 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
+mongoose.set('strictQuery', true);
+mongoose.Promise = global.Promise;
+
+// connect to the database
+mongoose.connect(process.env.MONGODB_URI);
+
+// When successfully connected
+mongoose.connection.on('connected', () => {
+    console.log('Connection to database established successfully');
 });
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error:'));
+
+// If the connection throws an error
+mongoose.connection.on('error', (err) => {
+    console.error(`Error connecting to database: ${err}`);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', () => {
+    console.log('Database disconnected');
+});
 
 /**
  * @method POST
@@ -33,7 +46,7 @@ router.get('/get', (req, res) => {
         create: '/api/v1/post',
         read: '/api/v1/get',
         update: '/api/v1/put/<ID>',
-        delete: '/api/v1/delete/<ID>'
+        delete: '/api/v1/delete/<ID>',
     });
 });
 
